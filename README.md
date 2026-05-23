@@ -6,17 +6,19 @@ The badge only appears when you are actually on WSL. On a normal Linux machine o
 
 ## What you need
 
-You will need [Zsh](https://www.zsh.org/), [Spaceship Prompt](https://spaceship-prompt.sh/) v4 or newer, and a terminal font from [Nerd Fonts](https://www.nerdfonts.com/) so the distro icons render correctly.
+You will need [Zsh](https://www.zsh.org/) and [Spaceship Prompt](https://spaceship-prompt.sh/) v4 or newer.
+
+Distro icons use **emoji by default**, so they work with common monospace fonts like Cascadia Mono. For Nerd Font Devicons instead, set `SPACESHIP_WSL_USE_NERD_FONT=true` or `SPACESHIP_WSL_SYMBOL_STYLE=nerd` (requires a font from [Nerd Fonts](https://www.nerdfonts.com/)).
 
 ## Installation
 
-Load this plugin **after** Spaceship. If you load it first, the section will not register properly.
+Source this plugin **before** Spaceship initializes the prompt. Spaceship registers sections when the prompt starts; if `spaceship_wsl` is not defined yet, you will see a warning and `wsl` will be removed from `SPACESHIP_PROMPT_ORDER`.
 
 **With [Znap](https://github.com/marlonrichert/zsh-snap):**
 
 ```zsh
-znap prompt spaceship-prompt/spaceship-prompt
 znap source kevinnio/spaceship-wsl spaceship-wsl.plugin.zsh
+znap prompt spaceship-prompt/spaceship-prompt
 ```
 
 **Manually:**
@@ -25,6 +27,7 @@ znap source kevinnio/spaceship-wsl spaceship-wsl.plugin.zsh
 git clone https://github.com/kevinnio/spaceship-wsl.git \
   ${ZSH_CUSTOM:-~/.zsh}/spaceship-wsl
 source ${ZSH_CUSTOM:-~/.zsh}/spaceship-wsl/spaceship-wsl.plugin.zsh
+# Then run `prompt spaceship` (or your usual Spaceship setup).
 ```
 
 ## Where the badge appears
@@ -59,6 +62,8 @@ Many popular distros ship with matching icons and brand colors—Ubuntu, Debian,
 ## Customization
 
 Set `SPACESHIP_WSL_SHOW=false` to turn the section off entirely.
+
+`SPACESHIP_WSL_SYMBOL_STYLE` controls icons: `auto` (default), `emoji`, `nerd`, `ascii`, or `none`. With `auto`, emoji is used unless you set `SPACESHIP_WSL_USE_NERD_FONT=true`.
 
 The usual Spaceship options are available: `SPACESHIP_WSL_PREFIX`, `SPACESHIP_WSL_SUFFIX`, `SPACESHIP_WSL_SYMBOL`, and `SPACESHIP_WSL_COLOR` control the fallback symbol and color when there is no per-distro match.
 
