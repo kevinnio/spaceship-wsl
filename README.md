@@ -1,25 +1,25 @@
 # spaceship-wsl
 
-[WSL](https://learn.microsoft.com/en-us/windows/wsl/) distro indicator for [Spaceship Prompt](https://spaceship-prompt.sh/). Shows a Nerd Font distro icon and distro name when running on WSL.
+If you juggle more than one [WSL](https://learn.microsoft.com/en-us/windows/wsl/) distro, it is easy to forget which Linux environment you are in. This plugin adds a small badge to [Spaceship Prompt](https://spaceship-prompt.sh/) that shows your distro’s name and icon, so your prompt tells you at a glance.
 
-## Requirements
+The badge only appears when you are actually on WSL. On a normal Linux machine or macOS, nothing is added.
 
-- [Zsh](https://www.zsh.org/)
-- [Spaceship Prompt](https://spaceship-prompt.sh/) v4+
-- A [Nerd Font](https://www.nerdfonts.com/) terminal font
+## What you need
 
-## Install
+You will need [Zsh](https://www.zsh.org/), [Spaceship Prompt](https://spaceship-prompt.sh/) v4 or newer, and a terminal font from [Nerd Fonts](https://www.nerdfonts.com/) so the distro icons render correctly.
 
-Load **after** Spaceship.
+## Installation
 
-### With [Znap](https://github.com/marlonrichert/zsh-snap)
+Load this plugin **after** Spaceship. If you load it first, the section will not register properly.
+
+**With [Znap](https://github.com/marlonrichert/zsh-snap):**
 
 ```zsh
 znap prompt spaceship-prompt/spaceship-prompt
 znap source kevinnio/spaceship-wsl spaceship-wsl.plugin.zsh
 ```
 
-### Manual
+**Manually:**
 
 ```zsh
 git clone https://github.com/kevinnio/spaceship-wsl.git \
@@ -27,9 +27,11 @@ git clone https://github.com/kevinnio/spaceship-wsl.git \
 source ${ZSH_CUSTOM:-~/.zsh}/spaceship-wsl/spaceship-wsl.plugin.zsh
 ```
 
-## Prompt order
+## Where the badge appears
 
-This plugin registers the `wsl` section but does not choose where it appears. Add `wsl` to [SPACESHIP_PROMPT_ORDER](https://spaceship-prompt.sh/config/prompt/) (or `SPACESHIP_RPROMPT_ORDER`) in your Spaceship config:
+Installing the plugin defines a section called `wsl`, but it does not pick a spot in your prompt for you. You decide that by adding `wsl` to your [prompt order](https://spaceship-prompt.sh/config/prompt/).
+
+A common choice is just before the prompt character:
 
 ```zsh
 SPACESHIP_PROMPT_ORDER=(
@@ -39,30 +41,28 @@ SPACESHIP_PROMPT_ORDER=(
 )
 ```
 
-You can also change placement at runtime:
+Put `wsl` anywhere else in that list if you prefer. You can also show it on the right side with `SPACESHIP_RPROMPT_ORDER`.
+
+To move it without editing your config, Spaceship’s CLI works too:
 
 ```zsh
-spaceship add --before char wsl   # insert before the prompt character
-spaceship remove wsl              # remove from the prompt
+spaceship add --before char wsl
+spaceship remove wsl
 ```
 
-## Appearance
+## What it looks like
 
-Shown on WSL only. The label comes from `$WSL_DISTRO_NAME`, or from `/etc/os-release` when that variable is unset.
+On WSL, the section shows a distro icon and a label. The label usually comes from `$WSL_DISTRO_NAME`. If that is not set, the plugin reads `/etc/os-release` instead.
 
-Per-distro Nerd Font icons and brand colors are built in (Ubuntu, Debian, Arch, Fedora, Alpine, and others). Unknown distros fall back to the Windows logo and `SPACESHIP_WSL_COLOR`.
+Many popular distros ship with matching icons and brand colors—Ubuntu, Debian, Arch, Fedora, Alpine, and others. If yours is not in the list, you get a generic Windows-style icon and the color from `SPACESHIP_WSL_COLOR` (cyan by default).
 
-## Options
+## Customization
 
-| Variable | Default | Description |
-| --- | --- | --- |
-| `SPACESHIP_WSL_SHOW` | `true` | Show or hide the section |
-| `SPACESHIP_WSL_PREFIX` | `$SPACESHIP_PROMPT_DEFAULT_PREFIX` | Prefix before the label |
-| `SPACESHIP_WSL_SUFFIX` | `$SPACESHIP_PROMPT_DEFAULT_SUFFIX` | Suffix after the label |
-| `SPACESHIP_WSL_SYMBOL` | Windows Nerd Font glyph | Fallback symbol when no distro match |
-| `SPACESHIP_WSL_COLOR` | `cyan` | Fallback color when no distro match |
+Set `SPACESHIP_WSL_SHOW=false` to turn the section off entirely.
 
-Override icons and colors per distro with associative arrays (keys are lowercase distro IDs, e.g. `ubuntu`, `pop-os`):
+The usual Spaceship options are available: `SPACESHIP_WSL_PREFIX`, `SPACESHIP_WSL_SUFFIX`, `SPACESHIP_WSL_SYMBOL`, and `SPACESHIP_WSL_COLOR` control the fallback symbol and color when there is no per-distro match.
+
+To override a specific distro, extend the associative arrays in your `.zshrc`. Keys are lowercase distro IDs (`ubuntu`, `pop-os`, and so on):
 
 ```zsh
 typeset -gA SPACESHIP_WSL_DISTRO_SYMBOLS SPACESHIP_WSL_DISTRO_COLORS
@@ -71,7 +71,7 @@ SPACESHIP_WSL_DISTRO_SYMBOLS[my-distro]=$'\uF17A '
 SPACESHIP_WSL_DISTRO_COLORS[my-distro]='#ff6600'
 ```
 
-See `spaceship-wsl.plugin.zsh` for the full default symbol and color maps.
+The full list of built-in symbols and colors lives in `spaceship-wsl.plugin.zsh`.
 
 ## License
 
