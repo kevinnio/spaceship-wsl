@@ -31,6 +31,20 @@ source ${ZSH_CUSTOM:-~/.zsh}/spaceship-wsl/spaceship-wsl.plugin.zsh
 
 On WSL only. Uses `$WSL_DISTRO_NAME` or `/etc/os-release` with per-distro Nerd Font icons (Ubuntu, Debian, Arch, Fedora, …).
 
+## Prompt order
+
+Add `wsl` to [SPACESHIP_PROMPT_ORDER](https://spaceship-prompt.sh/config/prompt/) wherever you want the badge to appear (load this plugin after Spaceship):
+
+```zsh
+SPACESHIP_PROMPT_ORDER=(
+  time user dir host git
+  wsl
+  char
+)
+```
+
+You can also use `spaceship add --before char wsl` or `spaceship remove wsl` at runtime.
+
 ## Options
 
 See `spaceship-wsl.plugin.zsh` for `SPACESHIP_WSL_*` variables and `SPACESHIP_WSL_DISTRO_SYMBOLS` / `SPACESHIP_WSL_DISTRO_COLORS` arrays.
