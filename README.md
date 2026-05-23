@@ -69,7 +69,7 @@ Set `SPACESHIP_WSL_SHOW=false` to turn the section off entirely.
 
 `SPACESHIP_WSL_ICON_STYLE` controls icons: `nerd` (default), `emoji`, `ascii`, or `none`. Use `emoji` or `ascii` when your terminal font is not a Nerd Font.
 
-The usual Spaceship options are available: `SPACESHIP_WSL_PREFIX`, `SPACESHIP_WSL_SUFFIX`, `SPACESHIP_WSL_SYMBOL`, and `SPACESHIP_WSL_COLOR` control the fallback symbol and color when there is no per-distro match.
+The usual Spaceship options are available: `SPACESHIP_WSL_PREFIX`, `SPACESHIP_WSL_SUFFIX`, `SPACESHIP_WSL_ICON`, and `SPACESHIP_WSL_COLOR` control the fallback icon and color when there is no per-distro match.
 
 To override a specific distro, extend the associative arrays in your `.zshrc`. Keys are lowercase distro IDs (`ubuntu`, `opensuse-leap`, and so on):
 
