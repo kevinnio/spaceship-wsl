@@ -3,113 +3,112 @@
 # https://spaceship-prompt.sh/advanced/creating-section/
 
 SPACESHIP_WSL_SHOW="${SPACESHIP_WSL_SHOW=true}"
-SPACESHIP_WSL_PREFIX="${SPACESHIP_WSL_PREFIX="$SPACESHIP_PROMPT_DEFAULT_PREFIX"}"
-SPACESHIP_WSL_SUFFIX="${SPACESHIP_WSL_SUFFIX="$SPACESHIP_PROMPT_DEFAULT_SUFFIX"}"
+SPACESHIP_WSL_PREFIX="${SPACESHIP_WSL_PREFIX=" "}"
+SPACESHIP_WSL_SUFFIX="${SPACESHIP_WSL_SUFFIX=" "}"
 SPACESHIP_WSL_SYMBOL="${SPACESHIP_WSL_SYMBOL=$'\uF17A '}"
 SPACESHIP_WSL_COLOR="${SPACESHIP_WSL_COLOR="cyan"}"
-# Symbol style: auto (default), nerd, emoji, ascii, or none.
-# auto uses nerd icons only when SPACESHIP_WSL_USE_NERD_FONT=true; otherwise emoji.
-SPACESHIP_WSL_SYMBOL_STYLE="${SPACESHIP_WSL_SYMBOL_STYLE=auto}"
-SPACESHIP_WSL_USE_NERD_FONT="${SPACESHIP_WSL_USE_NERD_FONT=false}"
+# Icon style: nerd (default), emoji, ascii, or none.
+SPACESHIP_WSL_ICON_STYLE="${SPACESHIP_WSL_ICON_STYLE=nerd}"
+
+# Distros available from `wsl --list --online`.
+typeset -ga SPACESHIP_WSL_DISTROS=(
+  ubuntu
+  debian
+  arch
+  fedora
+  opensuse-leap
+  opensuse-tumbleweed
+  sles
+  kali
+  rocky
+  almalinux
+  oracle
+)
 
 typeset -gA SPACESHIP_WSL_DISTRO_SYMBOLS SPACESHIP_WSL_DISTRO_COLORS
 typeset -gA SPACESHIP_WSL_EMOJI_SYMBOLS SPACESHIP_WSL_ASCII_SYMBOLS
 
 SPACESHIP_WSL_DISTRO_SYMBOLS=(
-  ubuntu        $'\uF31C '
-  debian        $'\uF306 '
-  arch          $'\uF303 '
-  archlinux     $'\uF303 '
-  fedora        $'\uF30A '
-  alpine        $'\uF300 '
-  opensuse      $'\uF314 '
-  opensuse-leap $'\uF314 '
-  sles          $'\uF314 '
-  kali          $'\uF327 '
-  nixos         $'\uF313 '
-  linuxmint     $'\uF31E '
-  pop           $'\uF32A '
-  pop-os        $'\uF32A '
-  elementary    $'\uF309 '
-  manjaro       $'\uF312 '
-  rocky         $'\uF32B '
-  almalinux     $'\uF31D '
-  centos        $'\uF304 '
-  rhel          $'\uF316 '
-  default       $'\uF17A '
+  ubuntu              $'\uF31C '
+  debian              $'\uF306 '
+  arch                $'\uF303 '
+  fedora              $'\uF30A '
+  opensuse-leap       $'\uF314 '
+  opensuse-tumbleweed $'\uF314 '
+  sles                $'\uF314 '
+  kali                $'\uF327 '
+  rocky               $'\uF32B '
+  almalinux           $'\uF31D '
+  oracle              $'\uF17A '
+  default             $'\uF17A '
 )
 
 SPACESHIP_WSL_EMOJI_SYMBOLS=(
-  ubuntu        $'🟠 '
-  debian        $'🔴 '
-  arch          $'🔷 '
-  archlinux     $'🔷 '
-  fedora        $'🎩 '
-  alpine        $'🏔 '
-  opensuse      $'🦎 '
-  opensuse-leap $'🦎 '
-  sles          $'🦎 '
-  kali          $'🐉 '
-  nixos         $'❄ '
-  linuxmint     $'🌿 '
-  pop           $'⭐ '
-  pop-os        $'⭐ '
-  elementary    $'💠 '
-  manjaro       $'🍃 '
-  rocky         $'🪨 '
-  almalinux     $'🪨 '
-  centos        $'💠 '
-  rhel          $'🎩 '
-  default       $'🐧 '
+  ubuntu              $'🟠 '
+  debian              $'🔴 '
+  arch                $'🔷 '
+  fedora              $'🎩 '
+  opensuse-leap       $'🦎 '
+  opensuse-tumbleweed $'🦎 '
+  sles                $'🦎 '
+  kali                $'🐉 '
+  rocky               $'🪨 '
+  almalinux           $'🪨 '
+  oracle              $'🔶 '
+  default             $'🐧 '
 )
 
 SPACESHIP_WSL_ASCII_SYMBOLS=(
-  ubuntu        'U '
-  debian        'D '
-  arch          'A '
-  archlinux     'A '
-  fedora        'F '
-  alpine        'Al '
-  opensuse      'Su '
-  opensuse-leap 'Su '
-  sles          'Su '
-  kali          'K '
-  nixos         'Nx '
-  linuxmint     'Mi '
-  pop           'P '
-  pop-os        'P '
-  elementary    'E '
-  manjaro       'Mj '
-  rocky         'R '
-  almalinux     'Al '
-  centos        'Ce '
-  rhel          'Rh '
-  default       'W '
+  ubuntu              'U '
+  debian              'D '
+  arch                'A '
+  fedora              'F '
+  opensuse-leap       'Su '
+  opensuse-tumbleweed 'Su '
+  sles                'Su '
+  kali                'K '
+  rocky               'R '
+  almalinux           'Al '
+  oracle              'Or '
+  default             'W '
 )
 
 SPACESHIP_WSL_DISTRO_COLORS=(
-  ubuntu        '#E95420'
-  debian        '#A81D33'
-  arch          '#1793D1'
-  archlinux     '#1793D1'
-  fedora        '#51A2DA'
-  alpine        '#0D597F'
-  opensuse      '#73BA25'
-  opensuse-leap '#73BA25'
-  sles          '#73BA25'
-  kali          '#557C94'
-  nixos         '#5277C3'
-  linuxmint     '#87CF3E'
-  pop           '#48B9C7'
-  pop-os        '#48B9C7'
-  elementary    '#64BAFF'
-  manjaro       '#35BF5C'
-  rocky         '#10B981'
-  almalinux     '#10B981'
-  centos        '#932279'
-  rhel          '#EE0000'
-  default       'cyan'
+  ubuntu              '#E95420'
+  debian              '#A81D33'
+  arch                '#1793D1'
+  fedora              '#51A2DA'
+  opensuse-leap       '#73BA25'
+  opensuse-tumbleweed '#73BA25'
+  sles                '#73BA25'
+  kali                '#557C94'
+  rocky               '#10B981'
+  almalinux           '#10B981'
+  oracle              '#F80000'
+  default             'cyan'
 )
+
+spaceship_wsl::normalize_id() {
+  local id="${1:l}"
+  id="${id// /-}"
+  id="${id//_/-}"
+
+  case "$id" in
+    ubuntu*) id=ubuntu ;;
+    debian*) id=debian ;;
+    arch|archlinux*) id=arch ;;
+    fedora*|fedoralinux*) id=fedora ;;
+    opensuse-tumbleweed*|tumbleweed*) id=opensuse-tumbleweed ;;
+    opensuse-leap*|opensuse*) id=opensuse-leap ;;
+    sles*|suse-linux-enterprise*) id=sles ;;
+    kali*) id=kali ;;
+    rocky*) id=rocky ;;
+    almalinux*) id=almalinux ;;
+    oracle*|oraclelinux*) id=oracle ;;
+  esac
+
+  print -r "$id"
+}
 
 spaceship_wsl::distro_id() {
   local id="${WSL_DISTRO_NAME:-}"
@@ -118,31 +117,21 @@ spaceship_wsl::distro_id() {
     id="$(source /etc/os-release; print -r "${ID:-}")"
   fi
 
-  id="${id:l}"
-  id="${id// /-}"
-  print -r "$id"
+  [[ -n "$id" ]] || return 0
+  spaceship_wsl::normalize_id "$id"
 }
 
-spaceship_wsl::symbol_style() {
-  case "$SPACESHIP_WSL_SYMBOL_STYLE" in
-    nerd|emoji|ascii|none) print -r "$SPACESHIP_WSL_SYMBOL_STYLE" ;;
-    auto)
-      if [[ "$SPACESHIP_WSL_USE_NERD_FONT" == true ]]; then
-        print -r nerd
-      else
-        print -r emoji
-      fi
-      ;;
-    *)
-      print -r emoji
-      ;;
+spaceship_wsl::icon_style() {
+  case "$SPACESHIP_WSL_ICON_STYLE" in
+    nerd|emoji|ascii|none) print -r "$SPACESHIP_WSL_ICON_STYLE" ;;
+    *) print -r nerd ;;
   esac
 }
 
 spaceship_wsl::symbol_for() {
   local id="$1" style
 
-  style="$(spaceship_wsl::symbol_style)"
+  style="$(spaceship_wsl::icon_style)"
   if [[ "$style" == none ]]; then
     print -r ""
     return
@@ -175,10 +164,12 @@ spaceship_wsl::symbol_for() {
 
 spaceship_wsl::color_for() {
   local id="$1"
-  if [[ -n "${SPACESHIP_WSL_DISTRO_COLORS[$id]}" ]]; then
+
+  if (( ${+SPACESHIP_WSL_DISTRO_COLORS[$id]} )); then
     print -r "${SPACESHIP_WSL_DISTRO_COLORS[$id]}"
     return
   fi
+
   print -r "${SPACESHIP_WSL_DISTRO_COLORS[default]}"
 }
 
