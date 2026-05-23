@@ -118,7 +118,3 @@ spaceship_wsl() {
     --symbol "$symbol" \
     "$label"
 }
-
-if (( $+functions[spaceship] )); then
-  spaceship add --before char wsl 2>/dev/null
-fi
