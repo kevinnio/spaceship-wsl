@@ -3,9 +3,6 @@ set -euo pipefail
 
 REPO_ROOT="${0:A:h:h}"
 
-SPACESHIP_PROMPT_DEFAULT_PREFIX=' '
-SPACESHIP_PROMPT_DEFAULT_SUFFIX=' '
-
 source "$REPO_ROOT/spaceship-wsl.plugin.zsh"
 
 assert_eq() {
@@ -18,45 +15,49 @@ assert_eq() {
   fi
 }
 
-SPACESHIP_WSL_SYMBOL_STYLE=nerd
-assert_eq "nerd symbol for ubuntu" \
+expected_symbol() {
+  local style="$1" id="$2"
+
+  case "$style" in
+    nerd) print -r "${SPACESHIP_WSL_DISTRO_SYMBOLS[$id]}" ;;
+    emoji) print -r "${SPACESHIP_WSL_EMOJI_SYMBOLS[$id]}" ;;
+    ascii) print -r "${SPACESHIP_WSL_ASCII_SYMBOLS[$id]}" ;;
+  esac
+}
+
+typeset -a STYLES=(nerd emoji ascii none)
+
+for style in "${STYLES[@]}"; do
+  SPACESHIP_WSL_ICON_STYLE="$style"
+
+  if [[ "$style" == none ]]; then
+    for id in "${SPACESHIP_WSL_DISTROS[@]}"; do
+      assert_eq "$style symbol for $id" "" "$(spaceship_wsl::symbol_for "$id")"
+    done
+    assert_eq "$style symbol for unknown distro" "" "$(spaceship_wsl::symbol_for unknown-distro)"
+    continue
+  fi
+
+  for id in "${SPACESHIP_WSL_DISTROS[@]}"; do
+    assert_eq "$style symbol for $id" \
+      "$(expected_symbol "$style" "$id")" \
+      "$(spaceship_wsl::symbol_for "$id")"
+  done
+
+  assert_eq "$style symbol for unknown distro" \
+    "$(expected_symbol "$style" default)" \
+    "$(spaceship_wsl::symbol_for unknown-distro)"
+done
+
+unset SPACESHIP_WSL_ICON_STYLE
+source "$REPO_ROOT/spaceship-wsl.plugin.zsh"
+assert_eq "default symbol style is nerd" \
   "${SPACESHIP_WSL_DISTRO_SYMBOLS[ubuntu]}" \
   "$(spaceship_wsl::symbol_for ubuntu)"
-assert_eq "nerd symbol for unknown" \
-  "${SPACESHIP_WSL_DISTRO_SYMBOLS[default]}" \
-  "$(spaceship_wsl::symbol_for unknown)"
 
-SPACESHIP_WSL_SYMBOL_STYLE=emoji
-assert_eq "emoji symbol for ubuntu" \
-  "${SPACESHIP_WSL_EMOJI_SYMBOLS[ubuntu]}" \
-  "$(spaceship_wsl::symbol_for ubuntu)"
-assert_eq "emoji symbol for archlinux" \
-  "${SPACESHIP_WSL_EMOJI_SYMBOLS[archlinux]}" \
-  "$(spaceship_wsl::symbol_for archlinux)"
-assert_eq "emoji symbol for unknown" \
-  "${SPACESHIP_WSL_EMOJI_SYMBOLS[default]}" \
-  "$(spaceship_wsl::symbol_for unknown)"
-
-SPACESHIP_WSL_SYMBOL_STYLE=ascii
-assert_eq "ascii symbol for ubuntu" \
-  "${SPACESHIP_WSL_ASCII_SYMBOLS[ubuntu]}" \
-  "$(spaceship_wsl::symbol_for ubuntu)"
-assert_eq "ascii symbol for unknown" \
-  "${SPACESHIP_WSL_ASCII_SYMBOLS[default]}" \
-  "$(spaceship_wsl::symbol_for unknown)"
-
-SPACESHIP_WSL_SYMBOL_STYLE=none
-assert_eq "none symbol for ubuntu" "" "$(spaceship_wsl::symbol_for ubuntu)"
-
-SPACESHIP_WSL_SYMBOL_STYLE=auto
-SPACESHIP_WSL_USE_NERD_FONT=false
-assert_eq "auto without nerd font uses emoji" \
-  "${SPACESHIP_WSL_EMOJI_SYMBOLS[ubuntu]}" \
-  "$(spaceship_wsl::symbol_for ubuntu)"
-
-SPACESHIP_WSL_USE_NERD_FONT=true
-assert_eq "auto with nerd font uses devicons" \
+SPACESHIP_WSL_ICON_STYLE=invalid-style
+assert_eq "invalid symbol style falls back to nerd" \
   "${SPACESHIP_WSL_DISTRO_SYMBOLS[ubuntu]}" \
   "$(spaceship_wsl::symbol_for ubuntu)"
 
-print -r "All symbol tests passed."
+print -r "Symbol tests passed."
