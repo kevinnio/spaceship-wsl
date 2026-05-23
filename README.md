@@ -1,14 +1,18 @@
 # spaceship-wsl
 
-If you juggle more than one [WSL](https://learn.microsoft.com/en-us/windows/wsl/) distro, it is easy to forget which Linux environment you are in. This plugin adds a small badge to [Spaceship Prompt](https://spaceship-prompt.sh/) that shows your distro’s name and icon, so your prompt tells you at a glance.
+If you juggle more than one [WSL](https://learn.microsoft.com/en-us/windows/wsl/) distro, it is easy to forget which Linux environment you are in. This plugin adds a section to [Spaceship Prompt](https://spaceship-prompt.sh/) that shows your distro’s name and icon, so your prompt tells you at a glance.
 
-The badge only appears when you are actually on WSL. On a normal Linux machine or macOS, nothing is added.
+The section only appears when you are actually on WSL. On a normal Linux machine or macOS, nothing is added.
 
 ## What you need
 
-You will need [Zsh](https://www.zsh.org/) and [Spaceship Prompt](https://spaceship-prompt.sh/) v4 or newer.
+You will need [Zsh](https://www.zsh.org/), [Spaceship Prompt](https://spaceship-prompt.sh/) v4 or newer, and a terminal font from [Nerd Fonts](https://www.nerdfonts.com/) so the distro icons render correctly.
 
-Distro icons use **emoji by default**, so they work with common monospace fonts like Cascadia Mono. For Nerd Font Devicons instead, set `SPACESHIP_WSL_USE_NERD_FONT=true` or `SPACESHIP_WSL_SYMBOL_STYLE=nerd` (requires a font from [Nerd Fonts](https://www.nerdfonts.com/)).
+If you use a regular monospace font (for example Cascadia Mono), set `SPACESHIP_WSL_ICON_STYLE` before loading the plugin:
+
+```zsh
+SPACESHIP_WSL_ICON_STYLE=emoji   # or ascii, none
+```
 
 ## Installation
 
@@ -30,7 +34,7 @@ source ${ZSH_CUSTOM:-~/.zsh}/spaceship-wsl/spaceship-wsl.plugin.zsh
 # Then run `prompt spaceship` (or your usual Spaceship setup).
 ```
 
-## Where the badge appears
+## Where the section appears
 
 Installing the plugin defines a section called `wsl`, but it does not pick a spot in your prompt for you. You decide that by adding `wsl` to your [prompt order](https://spaceship-prompt.sh/config/prompt/).
 
@@ -57,17 +61,17 @@ spaceship remove wsl
 
 On WSL, the section shows a distro icon and a label. The label usually comes from `$WSL_DISTRO_NAME`. If that is not set, the plugin reads `/etc/os-release` instead.
 
-Many popular distros ship with matching icons and brand colors—Ubuntu, Debian, Arch, Fedora, Alpine, and others. If yours is not in the list, you get a generic Windows-style icon and the color from `SPACESHIP_WSL_COLOR` (cyan by default).
+Many distros available from `wsl --list --online` ship with matching icons and brand colors—Ubuntu, Debian, Arch, Fedora, openSUSE, Kali, Rocky, AlmaLinux, Oracle Linux, and others. If yours is not in the list, you get a generic Windows-style icon and the color from `SPACESHIP_WSL_COLOR` (cyan by default).
 
 ## Customization
 
 Set `SPACESHIP_WSL_SHOW=false` to turn the section off entirely.
 
-`SPACESHIP_WSL_SYMBOL_STYLE` controls icons: `auto` (default), `emoji`, `nerd`, `ascii`, or `none`. With `auto`, emoji is used unless you set `SPACESHIP_WSL_USE_NERD_FONT=true`.
+`SPACESHIP_WSL_ICON_STYLE` controls icons: `nerd` (default), `emoji`, `ascii`, or `none`. Use `emoji` or `ascii` when your terminal font is not a Nerd Font.
 
 The usual Spaceship options are available: `SPACESHIP_WSL_PREFIX`, `SPACESHIP_WSL_SUFFIX`, `SPACESHIP_WSL_SYMBOL`, and `SPACESHIP_WSL_COLOR` control the fallback symbol and color when there is no per-distro match.
 
-To override a specific distro, extend the associative arrays in your `.zshrc`. Keys are lowercase distro IDs (`ubuntu`, `pop-os`, and so on):
+To override a specific distro, extend the associative arrays in your `.zshrc`. Keys are lowercase distro IDs (`ubuntu`, `opensuse-leap`, and so on):
 
 ```zsh
 typeset -gA SPACESHIP_WSL_DISTRO_SYMBOLS SPACESHIP_WSL_DISTRO_COLORS
@@ -76,7 +80,15 @@ SPACESHIP_WSL_DISTRO_SYMBOLS[my-distro]=$'\uF17A '
 SPACESHIP_WSL_DISTRO_COLORS[my-distro]='#ff6600'
 ```
 
-The full list of built-in symbols and colors lives in `spaceship-wsl.plugin.zsh`.
+The full list of supported WSL distros lives in `SPACESHIP_WSL_DISTROS` inside `spaceship-wsl.plugin.zsh`.
+
+## Tests
+
+```zsh
+zsh tests/run_tests.zsh
+```
+
+Tests run on GitHub Actions for every push and pull request.
 
 ## License
 
